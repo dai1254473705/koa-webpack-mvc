@@ -77,36 +77,35 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/javascripts/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/Home/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
+/***/ "./src/Home/index.js":
+/*!***************************!*\
+  !*** ./src/Home/index.js ***!
+  \***************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test1 */ \"./src/test1.js\");\n\nconsole.log(_test1__WEBPACK_IMPORTED_MODULE_0__[\"mynames\"]);\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./swiper */ \"./src/Home/swiper.js\");\n/* harmony import */ var _swiper__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_swiper__WEBPACK_IMPORTED_MODULE_0__);\n\n\n//# sourceURL=webpack:///./src/Home/index.js?");
 
 /***/ }),
 
-/***/ "./src/test1.js":
-/*!**********************!*\
-  !*** ./src/test1.js ***!
-  \**********************/
-/*! exports provided: mynames */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./src/Home/swiper.js":
+/*!****************************!*\
+  !*** ./src/Home/swiper.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"mynames\", function() { return mynames; });\n\nconst mynames = {\n    \"nameone\": \"haha \"\n}\n\n//# sourceURL=webpack:///./src/test1.js?");
+eval("const swiper = 2;\nconsole.log(swiper);\n\n//# sourceURL=webpack:///./src/Home/swiper.js?");
 
 /***/ })
 
