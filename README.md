@@ -1,5 +1,11 @@
-# 学习webpack
+# koa-webpack-mvc
+> The ssr application used koa2 and webpack.
+---
 
-## webpack 4.16.0
+## Use
 
-> 入口、出口、loader、插件、模式
++ git clone https://github.com/dai1254473705/koa-webpack-mvc.git
++ npm install
++ npm run start
+
+
