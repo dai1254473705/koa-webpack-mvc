@@ -20,34 +20,35 @@ const config = require('../../config');
 var hotMiddlewareScript = 'webpack-hot-middleware/client?reload=true&noInfo=true';
 
 module.exports = () => {
-	const webPageEntry = path.resolve(__dirname,'../../../src/ershoufang/web/javascript/pages');
-	const wapPageEntry = path.resolve(__dirname,'../../../src/ershoufang/wap/javascript/pages');
+	const fileParentDir = path.join(__dirname, '../../src/javascripts/pages');
 
-	const webEntryFiles = glob.sync(webPageEntry + '/**/*.js',{
+	const allFiles = glob.sync(fileParentDir + '/**/*.js',{
 		// ignore: '',// 添加需要忽略的正则
 	});
-	const wapEntryFiles = glob.sync(wapPageEntry + '/*.js');
-console.log(webEntryFiles);
+	console.log(allFiles);
+
 	let entryObj = {};
-	// web
-	for (let i of webEntryFiles) {
+
+	/**
+	 * { 'javascripts/pages/detail': 
+	 		[ 
+	 			'./javascripts/pages/detail.js',
+				 'webpack-hot-middleware/client?reload=true&noInfo=true' 
+			],
+  		  'javascripts/pages/home':
+   			[ 
+				'./javascripts/pages/home.js',
+				 'webpack-hot-middleware/client?reload=true&noInfo=true' 
+			] }
+	 */
+	for (let i of allFiles) {
 		// let filename = i.substring(i.lastIndexOf('\/') + 1, i.lastIndexOf('.'));
-		let file = '.' + i.replace(/.+\/zhuge-house/,'');
-		let fileDirName = i.replace(/.+src\//,'').replace('.js','');
+		let file = '.' + i.replace(/.+\/src/,''); // "/javascripts/pages/detail.js"
+		let fileDirName = i.replace(/.+src\//,'').replace('.js',''); // "javascripts/pages/detail"
 		entryObj[fileDirName] = [file];
-		if (config.env === 'develop') {
-			webEntryObj[fileDirName].push(hotMiddlewareScript);
+		if (config.env === 'development') {
+			entryObj[fileDirName].push(hotMiddlewareScript);
 		}
 	}
-	// wap
-	for (let i of wapEntryFiles) {
-		let file = '.' + i.replace(/.+\/zhuge-house/,'');
-		let fileDirName =  i.replace(/.+src\//,'').replace('.js','');
-		entryObj[fileDirName] = [file];
-		if (config.env === 'develop') {
-			webEntryObj[fileDirName].push(hotMiddlewareScript);
-		}
-	}
-	console.log(entryObj);
 	return entryObj;
 };

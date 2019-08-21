@@ -4,7 +4,9 @@
   "description": "koa2 and webpack4 mvc demo",
   "main": "app.js",
   "scripts": {
-    "test": "npm run test"
+    "dev": "node app.dev.js",
+    "test": "npm run test",
+    "build": "node webpack/build.js"
   },
   "repository": {
     "type": "git",

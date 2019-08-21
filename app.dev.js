@@ -13,6 +13,8 @@ const debug = require('debug')('app');
 const app = new Koa();
 const router = new Router();
 
+process.env.NODE_ENV = config.env;
+
 const webpackDevConfig = require('./webpack/webpack.dev.config');
 const webpack = require('webpack');
 // const devMiddleware = require('./config/webpack/middleware/webpack-dev-middleware');

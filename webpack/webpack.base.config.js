@@ -7,13 +7,13 @@ const path = require('path');
 const entry = require('./modules/entry');
 
 module.exports = {
-	context: path.resolve(__dirname, '../..'),
+	context: path.resolve(__dirname, '../src/'),
 	entry: entry(),
 	// entry: {
-	// 	'ershoufang/web/javascript/pages/haha/indes': './src/ershoufang/web/javascript/pages/haha/indes.js'
+	// 	'javascripts/pages/detail':'./javascripts/pages/detail.js'
 	// },
 	output: {
-		path: path.resolve(__dirname, '../../public'),
+		path: path.resolve(__dirname, './public'),
 		filename: './[name].js',
 		publicPath: '/'
 	},
@@ -25,16 +25,4 @@ module.exports = {
 	// },
 	module: {},
 	plugins: [],
-	// node: {
-	//   // prevent webpack from injecting useless setImmediate polyfill because Vue
-	//   // source contains it (although only uses it if it's native).
-	//   setImmediate: false,
-	//   // prevent webpack from injecting mocks to Node native modules
-	//   // that does not make sense for the client
-	//   dgram: 'empty',
-	//   fs: 'empty',
-	//   net: 'empty',
-	//   tls: 'empty',
-	//   child_process: 'empty'
-	// }
 };
