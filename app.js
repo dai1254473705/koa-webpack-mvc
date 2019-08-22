@@ -8,33 +8,27 @@ const views = require('koa-views');
 const koaBody = require('koa-body');
 const compress = require('koa-compress');
 const config = require('./config');
+const debug = require('debug')('app');
 const app = new Koa();
 const router = new Router();
+
+process.env.NODE_ENV = config.env;
 
 // static
 app.use(koaBody());
 app.use(koaStatic(__dirname + '/public'));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(morgan('dev'));
+
+// 禁止自动渲染ejs
 app.use(views('views',{autoRender: false, extension: 'ejs'}));
 app.use(compress());
 
 // add router
 require('./routes/get')(router);
 
-// error handler and 404
-app.use(async (ctx, next) => {
-	try {
-		await next();
-	} catch (err) {
-		ctx.response.status = err.statusCode || err.status || 500;
-		// set locals, only providing error in development
-		ctx.body = await ctx.render('htmlerror',{
-			error: config.env === 'develop' ? err : '',
-			env: config.env
-		});
-	}
-});
+// error handler 404 && 500
+// app.use(handlerError());
 
 app.use(router.routes());
 app.use(router.allowedMethods());
@@ -46,4 +40,7 @@ app.on('error',(err,ctx) => {
 	console.log(err);
 });
 
-module.exports = app;
+app.listen(config.port, () => {
+	debug('%s',`Example app listening om port ${config.port}!\n`);
+});
+// module.exports = app;
