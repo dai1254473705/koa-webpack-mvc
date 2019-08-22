@@ -15,7 +15,8 @@ const webpackBaseConfig = require('./webpack.base.config');
 const webpackDevConfig = merge(webpackBaseConfig,{
 	mode: 'development',
 	output: {
-		publicPath: 'http://localhost:3000/'
+		// publicPath: 'http://localhost:3000/'
+		publicPath: '/'
 	},
 	module: {
 		rules: [
@@ -30,7 +31,7 @@ const webpackDevConfig = merge(webpackBaseConfig,{
 	},
 	plugins: [
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.HotModuleReplacementPlugin(),
+		// new webpack.HotModuleReplacementPlugin(),// 不需要添加，app.dev.js中通过koa-webpack自动添加
 		new webpack.NoEmitOnErrorsPlugin()
 	]
 });

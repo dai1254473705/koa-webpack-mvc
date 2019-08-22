@@ -17,7 +17,7 @@
 const glob = require('glob');
 const path = require('path');
 const config = require('../../config');
-var hotMiddlewareScript = 'webpack-hot-middleware/client?reload=true&noInfo=true';
+var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=10000&reload=true&noInfo=true&name=web';
 
 module.exports = () => {
 	const fileParentDir = path.join(__dirname, '../../src/javascripts/pages');

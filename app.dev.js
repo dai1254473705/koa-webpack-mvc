@@ -14,11 +14,8 @@ const debug = require('debug')('app');
 const app = new Koa();
 const router = new Router();
 
-process.env.NODE_ENV = config.env;
 
-const webpackDevConfig = require('./webpack/webpack.dev.config');
-const webpack = require('webpack');
-const {devMiddleware, hotMiddleware} = require('koa-webpack-middleware');
+process.env.NODE_ENV = config.env;
 
 // static
 app.use(koaBody());
@@ -31,45 +28,44 @@ app.use(views(path.join(__dirname, './views'), {autoRender: false, extension: 'e
 app.use(compress());
 
 // webpack dev and hot reload
-const compiler = webpack(webpackDevConfig);
-app.use(devMiddleware(compiler, {
-	noInfo: true,
-	publicPath: webpackDevConfig.output.publicPath,
-	stats: {
-		colors: true
-	}
-}));
-app.use(hotMiddleware(compiler,{
-	reload: true
-}));
+async function start(){
+	const webpackDevConfig = require('./webpack/webpack.dev.config');
+	const webpack = require('webpack');
+	const koaWebpack = require('koa-webpack');
+	const compiler = webpack(webpackDevConfig);
 
-// add global config and methods
-require('./routes/get')(router);
+	const middleware = await koaWebpack({ compiler });
+	app.use(middleware);
 
-// error handler 404 && 500
-// app.use(handlerError());
+	// add global config and methods
+	require('./routes/get')(router);
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+	// error handler 404 && 500
+	// app.use(handlerError());
 
-/**
- * 事件监听，比如html渲染出错
- */
-app.on('error',(err,ctx) => {
-	if (config.env === 'develop') {
-		notifier.notify({
-			title: err.message,
-			message: '监听到事件错误，请及时检查',
-			icon: path.join(__dirname, 'public/favicon.ico'), // Absolute path (doesn't work on balloons)
-			sound: true, // Only Notification Center or Windows Toasters
-			wait: true // Wait with callback, until user action is taken against notification
-		});
-	}
-});
-/**
- * 事件监听
- */
-// app.on('error', onerror());
-app.listen(config.port, () => {
-	debug('%s',`Example app listening om port ${config.port}!\n`);
-});
+	app.use(router.routes());
+	app.use(router.allowedMethods());
+
+	/**
+	 * 事件监听，比如html渲染出错
+	 */
+	app.on('error',(err,ctx) => {
+		if (config.env === 'develop') {
+			notifier.notify({
+				title: err.message,
+				message: '监听到事件错误，请及时检查',
+				icon: path.join(__dirname, 'public/favicon.ico'), // Absolute path (doesn't work on balloons)
+				sound: true, // Only Notification Center or Windows Toasters
+				wait: true // Wait with callback, until user action is taken against notification
+			});
+		}
+	});
+	/**
+	 * 事件监听
+	 */
+	// app.on('error', onerror());
+	app.listen(config.port, () => {
+		debug('%s',`Example app listening om port ${config.port}!\n`);
+	});
+}
+start();
