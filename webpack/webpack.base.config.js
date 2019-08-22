@@ -9,9 +9,6 @@ const entry = require('./modules/entry');
 module.exports = {
 	context: path.resolve(__dirname, '../src/'),
 	entry: entry(),
-	// entry: {
-	// 	'javascripts/pages/detail':'./javascripts/pages/detail.js'
-	// },
 	output: {
 		path: path.resolve(__dirname, './public'),
 		filename: './[name].js',
