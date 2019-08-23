@@ -15,8 +15,8 @@ const webpackBaseConfig = require('./webpack.base.config');
 const webpackDevConfig = merge(webpackBaseConfig,{
 	mode: 'development',
 	output: {
-		// publicPath: 'http://localhost:3000/'
-		publicPath: '/'
+		// 需要设置的和当前域名相同，如果是localhost时，可以设置为'/'，否则会出现跨域
+		publicPath: 'http://m.zhuge1.com:3000/'
 	},
 	module: {
 		rules: [

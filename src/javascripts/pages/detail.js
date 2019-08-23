@@ -1,3 +1,2 @@
-import {name} from '../module/base';
-console.log(name);
+import {name} from '__js__/module/base';
 console.log(name);
