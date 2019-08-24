@@ -7,6 +7,8 @@ const path = require('path');
 const entry = require('./modules/entry');
 const config = require('../config');
 const isDev =  config.env === 'development';
+const webpack = require('webpack');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 	// 基础目录，绝对路径，用于从配置中解析入口起点(entry point)和 loader
 	// 默认使用当前目录，但是推荐在配置中传递一个值。这使得你的配置独立于 CWD(current working directory - 当前执行路径)。
@@ -43,7 +45,10 @@ module.exports = {
 		sourceMapFilename: '[file].map'
 	},
 	module: {
-		// 防止 webpack 解析那些任何与给定正则表达式相匹配的文件,忽略大型的 library 可以提高构建性能。
+		/**
+		 * 防止 webpack 解析那些任何与给定正则表达式相匹配的文件,忽略大型的 library 可以提高构建性能。
+		 * @param {String} content /Users/zhuge/Documents/code/koa-webpack-mvc/src/javascripts/pages/home.js
+		 */
 		noParse: function (content) {
 			return /jquery|lodash/.test(content);
 		},
@@ -55,10 +60,6 @@ module.exports = {
 					// 将 JS 字符串生成为 style 节点
 					{
 						loader: 'style-loader',
-						options: {
-							// 启用/禁用 压缩
-							minimize: false
-						}
 					},
 					// css-loader 解释 @import 和 url()
 					// 将 CSS 转化成 CommonJS 模块
@@ -74,20 +75,60 @@ module.exports = {
 		]
 	},
 	resolve: {
-		// 告诉 webpack 解析模块时应该搜索的目录。
-		// 如果你想要添加一个目录到模块搜索目录，此目录优先于 node_modules/ 搜索：
-		modules: [
-			path.resolve(__dirname,'..','src'),
-			'../node_modules'
-		],
-		// 需要解析的后缀
-		extensions: ['.js','.json','.css','.scss'],
+		// 创建 import 或 require 的别名，来确保模块引入变得更简单。
 		alias: {
 			// '@/javascripts/module/base'; 访问base.js
 			'@': path.resolve(__dirname, '../src'),
 			// '__js__/module/base'; 访问base.js
 			'__js__': path.resolve(__dirname, '../src/javascripts'),
-		}
+			// 也可以在给定对象的键后的末尾添加 $，以表示精准匹配：
+			'utils$': path.resolve(__dirname, '../src/javascripts/common/utils.js'),
+		},
+		// 告诉 webpack 解析模块时应该搜索的目录。
+		// 如果你想要添加一个目录到模块搜索目录，此目录优先于 node_modules/ 搜索：
+		modules: [
+			path.resolve(__dirname,'../src'),
+			'node_modules'
+		],
+		// 如果是 true，将不允许无扩展名(extension-less)文件。
+		// 如果是true,./foo 有 .js 扩展，require('./foo') 不可以正常运行。
+		enforceExtension: false,
+		// 需要解析的后缀，引入的时候可以不带扩展参数， ./foo 有 .js 扩展，require('./foo')。
+		extensions: ['.js','.json','.css','.scss'],
+	},
+	plugins: [
+		// 设置全局变量
+		new webpack.DefinePlugin({
+			'process.env': isDev ? 'development' : 'production'
+		}),
+	],
+	optimization: {
+		// 不压缩代码
+		minimize: false,
+		// 公共部分js提出来
+		splitChunks: {
+			cacheGroups: {
+				vendors: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					minChunks: 1,
+					priority: 2,
+					chunks: 'initial' // 只打包初始时依赖的第三方
+				},
+				common: {
+					test: path.resolve(__dirname,'../src/javascripts/common'),
+					name: 'common',
+					minChunks: 1,// 其他entry引用次数大于此值，默认1
+					minSize: 0, // 最小尺寸必须大于此值，默认30000B
+					priority: 1,// 优先级，多个分组冲突时决定把代码放在哪块
+					chunks: 'all' //  值为"initial", "async"（默认） 或 "all"
+				}
+			}
+		},
+		// 开启后打包的文件都会有hash
+		// runtimeChunk: {
+		// 	name: 'manifest'
+		// }
 	},
 	performance: {
 		// 开发环境设置较大防止警告：false | "error" | "warning"
@@ -98,5 +139,4 @@ module.exports = {
 		maxEntrypointSize: isDev ? 600000 : 300000, // 整数类型（以字节为单位）
 	},
 	externals: 'jquery',
-	plugins: [],
 };

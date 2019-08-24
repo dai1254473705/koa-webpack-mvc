@@ -21,7 +21,16 @@ var hotMiddlewareScript = 'webpack-hot-middleware/client?reload=true';
 
 module.exports = () => {
 	const fileParentDir = path.join(__dirname, '../../src/javascripts/pages');
-	const allFiles = glob.sync(fileParentDir + '/**/*.js');
+	// const fileCommonDir = path.join(__dirname, '../../src/javascripts/common');
+
+	// js 数组
+	const pageFiles = glob.sync(fileParentDir + '/**/*.js');
+	// const commonFiles = glob.sync(fileCommonDir + '/**/*.js');
+
+	// 所有需要设置入口的文件
+	// const allFiles = pageFiles.concat(commonFiles);
+	const allFiles = pageFiles;
+
 	let entryObj = {};
 	for (let i of allFiles) {
 		let file = '.' + i.replace(/.+\/src/,''); // "/javascripts/pages/detail.js"
