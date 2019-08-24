@@ -1,4 +1,6 @@
 import {name} from '__js__/module/base';
+import('../../scss/haha.css');
+import('../../scss/test.scss');
 // import timeout from '../module/test';
 // import jquery from 'jquery';
 document.querySelector('.btn').onclick = function () {
@@ -7,5 +9,4 @@ document.querySelector('.btn').onclick = function () {
         res.default()
     })
 };
-
 // console.log(jquery);

@@ -18,13 +18,13 @@ const webpackDevConfig = merge(webpackBaseConfig,{
 	},
 	module: {
 		rules: [
-			{
-				test: /\.(png|jpg)$/,
-				loader: 'url?limit=8192&context=client&name=[path][name].[ext]'
-			}, {
-				test: /\.scss$/,
-				loader: 'style!css?sourceMap!resolve-url!sass?sourceMap'
-			}
+			// {
+			// 	test: /\.(png|jpg)$/,
+			// 	loader: 'url?limit=8192&context=client&name=[path][name].[ext]'
+			// }, {
+			// 	test: /\.scss$/,
+			// 	loader: 'style!css?sourceMap!resolve-url!sass?sourceMap'
+			// }
 		]
 	},
 	plugins: [
