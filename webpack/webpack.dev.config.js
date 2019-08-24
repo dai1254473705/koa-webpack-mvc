@@ -17,20 +17,13 @@ const webpackDevConfig = merge(webpackBaseConfig,{
 	output: {
 	},
 	module: {
-		rules: [
-			// {
-			// 	test: /\.(png|jpg)$/,
-			// 	loader: 'url?limit=8192&context=client&name=[path][name].[ext]'
-			// }, {
-			// 	test: /\.scss$/,
-			// 	loader: 'style!css?sourceMap!resolve-url!sass?sourceMap'
-			// }
-		]
 	},
 	plugins: [
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		// new webpack.HotModuleReplacementPlugin(),// 不需要添加，app.dev.js中通过koa-webpack自动添加
 		new webpack.NoEmitOnErrorsPlugin()
-	]
+	],
+	optimization: {
+	}
 });
 module.exports = webpackDevConfig;

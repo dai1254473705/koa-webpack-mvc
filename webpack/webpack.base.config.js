@@ -8,6 +8,8 @@ const entry = require('./modules/entry');
 const config = require('../config');
 const isDev =  config.env === 'development';
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 	// 基础目录，绝对路径，用于从配置中解析入口起点(entry point)和 loader
@@ -56,6 +58,15 @@ module.exports = {
 			{
 				test: /\.scss|\.css|\.less$/,
 				use: [
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							// only enable hot in development
+							hmr: isDev,
+							// if hmr does not work, this is a forceful method.
+							reloadAll: true,
+						},
+					},
 					// Adds CSS to the DOM by injecting a <style> tag
 					// 将 JS 字符串生成为 style 节点
 					{
@@ -101,10 +112,16 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env': isDev ? 'development' : 'production'
 		}),
+		new MiniCssExtractPlugin({
+			// Options similar to the same options in webpackOptions.output
+			// both options are optional
+			filename: '[name].css',
+			chunkFilename: '[id].css',
+		}),
 	],
 	optimization: {
 		// 不压缩代码
-		minimize: false,
+		minimize: isDev ? false : true,
 		// 公共部分js提出来
 		splitChunks: {
 			cacheGroups: {
