@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://MyLibrary/./javascripts/module/test.js"],"names":["test","console","log"],"mappings":";;;;;;0LAAe,SAASA,IACvBC,QAAQC,IAAI,gBADb","file":"2.55a179ae.js","sourcesContent":["export default function test () {\n\tconsole.log('test log----');\n}\n"],"sourceRoot":""}

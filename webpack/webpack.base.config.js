@@ -5,15 +5,42 @@
 'use strict';
 const path = require('path');
 const entry = require('./modules/entry');
-
+const config = require('../config');
+const isDev =  config.env === 'development';
 module.exports = {
-	context: path.resolve(__dirname, '../src/'),
+	// 基础目录，绝对路径，用于从配置中解析入口起点(entry point)和 loader
+	// 默认使用当前目录，但是推荐在配置中传递一个值。这使得你的配置独立于 CWD(current working directory - 当前执行路径)。
+	context: path.resolve(__dirname, '../src'),
+	// 嵌入到源文件中
+	devtool: isDev ? 'inline-source-map' : 'source-map',
 	entry: entry(),
 	output: {
-		path: path.resolve(__dirname, '..','public'),
+		// output 目录对应一个绝对路径。
+		path: path.resolve(__dirname, '../public'),
+		// 告诉 webpack 在 bundle 中引入「所包含模块信息」的相关注释.
+		// 此选项默认值是 false，并且不应该用于生产环境(production)，
+		// 但是对阅读开发环境(development)中的生成代码(generated code)极其有用。
+		pathinfo: isDev ? true : false,
 		filename: '[name].js',
-		library: 'MyLibrary', // console控制台可以访问的变量
-		libraryTarget: 'umd'
+		chunkFilename: '[name].[chunkhash:8].js',
+		// chunk 请求到期之前的毫秒数，默认为 120 000
+		chunkLoadTimeout: 10,
+		// 只用于 target 是 web，使用了通过 script 标签的 JSONP 来按需加载 chunk。
+		//  不带凭据(credential)启用跨域加载:anonymous(window.onerror可以捕获到js中错误)
+		crossOriginLoading: 'anonymous', // use-credentials || anonymous || false
+		// 默认 text/javascript || module
+		jsonpScriptType: 'text/javascript',
+		library: 'MyLibrary',
+		// libraryTarget: "umd" - 将你的 library 暴露为所有的模块定义下都可运行的方式。
+		libraryTarget: 'umd',
+		// 需要设置的和当前域名相同，如果是localhost时，可以设置为'/'，否则会出现跨域
+		// 对于按需加载(on-demand-load)或加载外部资源(external resources)（如图片、文件等）来说，output.publicPath 是很重要的选项。
+		// 如果指定了一个错误的值，则在加载这些资源时会收到 404 错误。
+		// 如：publicPath: "/assets/",  chunkFilename: "[id].chunk.js"
+		// 对于一个 chunk 请求，看起来像这样 /assets/4.chunk.js。
+		publicPath: isDev ? '//m.zhuge1.com:3000/' : '/',
+		// 只在 devtool 启用了 SourceMap 选项时才使用。
+		sourceMapFilename: '[file].map'
 	},
 	resolve: {
 		// 告诉 webpack 解析模块时应该搜索的目录。
@@ -26,18 +53,19 @@ module.exports = {
 		extensions: ['.js','.json','.css','.scss'],
 		alias: {
 			// '@/javascripts/module/base'; 访问base.js
-			'@': path.resolve(__dirname, '..','src'),
+			'@': path.resolve(__dirname, '../src'),
 			// '__js__/module/base'; 访问base.js
-			'__js__': path.resolve(__dirname, '..','src','javascripts'),
+			'__js__': path.resolve(__dirname, '../src/javascripts'),
 		}
 	},
 	performance: {
 		// 开发环境设置较大防止警告：false | "error" | "warning"
 		hints: 'warning',
 		// 根据入口起点的最大体积，控制webpack何时生成性能提示,整数类型,以字节为单位
-		maxAssetSize: 200000,
+		maxAssetSize: isDev ? 600000 : 300000,
 		// 最大单个资源体积，默认250000 (bytes)
-		maxEntrypointSize: 250000, // 整数类型（以字节为单位）
+		maxEntrypointSize: isDev ? 600000 : 300000, // 整数类型（以字节为单位）
 	},
+	externals: 'jquery',
 	plugins: [],
 };

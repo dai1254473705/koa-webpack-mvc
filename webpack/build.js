@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.prod.config');
 const ora = require('ora');
 const chalk = require('chalk');
-
+process.env.NODE_ENV = 'production';
 const spinner = ora(
 	'building for ' + process.env.NODE_ENV + ' environment...'
 );
