@@ -12,7 +12,7 @@ module.exports = {
 	// 默认使用当前目录，但是推荐在配置中传递一个值。这使得你的配置独立于 CWD(current working directory - 当前执行路径)。
 	context: path.resolve(__dirname, '../src'),
 	// 嵌入到源文件中
-	devtool: isDev ? 'inline-source-map' : 'source-map',
+	devtool: isDev ? 'eval-source-map' : 'none',
 	entry: entry(),
 	output: {
 		// output 目录对应一个绝对路径。

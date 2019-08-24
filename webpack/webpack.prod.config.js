@@ -10,7 +10,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // 打包环境配置
 const webpackProdConfig = merge(webpackBaseConfig,{
 	mode: 'production',
-	devtool: 'source-map',
 	module: {},
 	plugins: [
 		new CleanWebpackPlugin(),
