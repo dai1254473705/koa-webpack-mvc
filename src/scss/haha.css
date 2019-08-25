@@ -3,3 +3,19 @@
     height: 100px;
     background: #000;
 }
+
+
+
+.cont{
+    width: 100px;
+    height: 100px;
+    background: #000;
+}
+
+
+.cont1{
+    transform: translateX(20px);
+    width: 100px;
+    height: 100px;
+    background: #000;
+}

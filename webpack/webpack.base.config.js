@@ -54,28 +54,28 @@ module.exports = {
 		noParse: function (content) {
 			return /jquery|lodash/.test(content);
 		},
+		// loaders 是从右向左开始执行
 		rules: [
 			{
 				test: /\.scss|\.css|\.less$/,
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
-						options: {
-							// only enable hot in development
-							hmr: isDev,
-							// if hmr does not work, this is a forceful method.
-							reloadAll: true,
-						},
 					},
 					// Adds CSS to the DOM by injecting a <style> tag
 					// 将 JS 字符串生成为 style 节点
-					{
-						loader: 'style-loader',
-					},
+					// 生成style标签，放到head标签里。
+					// {
+					// 	loader: 'style-loader',
+					// },
 					// css-loader 解释 @import 和 url()
 					// 将 CSS 转化成 CommonJS 模块
 					{
 						loader: 'css-loader'
+					},
+					// 预编译
+					{
+						loader: 'postcss-loader',
 					},
 					// 将 Sass 编译成 CSS
 					{
@@ -115,8 +115,7 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			// Options similar to the same options in webpackOptions.output
 			// both options are optional
-			filename: '[name].css',
-			chunkFilename: '[id].css',
+			filename: '[name].css'
 		}),
 	],
 	optimization: {
@@ -139,7 +138,16 @@ module.exports = {
 					minSize: 0, // 最小尺寸必须大于此值，默认30000B
 					priority: 1,// 优先级，多个分组冲突时决定把代码放在哪块
 					chunks: 'all' //  值为"initial", "async"（默认） 或 "all"
-				}
+				},
+				styles: {
+					name: 'styles',
+					test: /\.css|\.scss|\.less$/,
+					chunks: 'all',
+					minChunks: 1,// 其他entry引用次数大于此值，默认1
+					minSize: 0, // 最小尺寸必须大于此值，默认30000B
+					priority: 1,// 优先级，多个分组冲突时决定把代码放在哪块
+					enforce: true,
+				},
 			}
 		},
 		// 开启后打包的文件都会有hash

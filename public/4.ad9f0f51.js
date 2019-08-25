@@ -1,1 +1,0 @@
-(window.webpackJsonpMyLibrary=window.webpackJsonpMyLibrary||[]).push([[4],{9:function(n,o,t){"use strict";function i(){console.log("test log----")}t.r(o),t.d(o,"default",function(){return i})}}]);
