@@ -5,3 +5,4 @@ import jquery from 'jquery';
 import utils from 'utils';
 console.log(utils);
 console.log(name);
+console.log(name);

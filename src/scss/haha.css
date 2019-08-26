@@ -1,12 +1,12 @@
 .content1{
     width: 100px;
     height: 100px;
-    background: #ff8400;
+    background: red;
 }
 
 .cont{
     width: 100px;
-    height: 100px;
+    height: 10px;
     background: #000;
 }
 

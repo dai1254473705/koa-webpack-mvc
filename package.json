@@ -4,6 +4,7 @@
   "description": "koa2 and webpack4 mvc demo",
   "main": "app.js",
   "scripts": {
+    "devServer": "DEBUG=app webpack-dev-server --config webpack/webpack.devserver.config.js",
     "dev": "DEBUG=app node app.dev.js",
     "test": "npm run test",
     "build": "node webpack/build.js"
@@ -54,6 +55,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "glob": "^7.1.4",
+    "html-webpack-plugin": "^3.2.0",
     "koa-webpack": "^5.2.4",
     "koa-webpack-middleware": "^1.0.7",
     "mini-css-extract-plugin": "^0.8.0",

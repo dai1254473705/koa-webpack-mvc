@@ -36,9 +36,9 @@ module.exports = () => {
 		let file = '.' + i.replace(/.+\/src/,''); // "/javascripts/pages/detail.js"
 		let fileDirName = i.replace(/.+src\//,'').replace('.js',''); // "javascripts/pages/detail"
 		entryObj[fileDirName] = [file];
-		if (config.env === 'development') {
-			entryObj[fileDirName].push(hotMiddlewareScript);
-		}
+		// if (config.env === 'development') {
+		// 	entryObj[fileDirName].push(hotMiddlewareScript);
+		// }
 	}
 	return entryObj;
 };

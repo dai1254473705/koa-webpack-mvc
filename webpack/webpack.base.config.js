@@ -8,15 +8,18 @@ const entry = require('./modules/entry');
 const config = require('../config');
 const isDev =  config.env === 'development';
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const entryArray = entry();
 module.exports = {
 	// 基础目录，绝对路径，用于从配置中解析入口起点(entry point)和 loader
 	// 默认使用当前目录，但是推荐在配置中传递一个值。这使得你的配置独立于 CWD(current working directory - 当前执行路径)。
 	context: path.resolve(__dirname, '../src'),
 	// 嵌入到源文件中
 	devtool: isDev ? 'eval-source-map' : 'none',
-	entry: entry(),
+	target: 'web', // <=== 默认是 'web'，可省略
+	entry: entryArray,
 	output: {
 		// output 目录对应一个绝对路径。
 		path: path.resolve(__dirname, '../public'),
@@ -84,6 +87,12 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env': isDev ? 'development' : 'production'
 		}),
+		new HtmlWebpackPlugin({
+			filename: 'index.html',
+			template: '../src/index.html',
+			chunks: ['javascripts/pages/detail'],
+			excludeChunks: ['home.js']
+		})
 	],
 	optimization: {
 		// 不压缩代码
