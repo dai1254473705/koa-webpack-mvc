@@ -1,17 +1,14 @@
 .content1{
     width: 100px;
     height: 100px;
-    background: #000;
+    background: #ff8400;
 }
-
-
 
 .cont{
     width: 100px;
     height: 100px;
     background: #000;
 }
-
 
 .cont1{
     transform: translateX(20px);

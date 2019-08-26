@@ -17,6 +17,32 @@ const webpackDevConfig = merge(webpackBaseConfig,{
 	output: {
 	},
 	module: {
+		rules: [
+			{
+				test: /\.scss|\.css|\.less$/,
+				use: [
+					// Adds CSS to the DOM by injecting a <style> tag
+					// 将 JS 字符串生成为 style 节点
+					// 生成style标签，放到head标签里。
+					{
+						loader: 'style-loader',
+					},
+					// css-loader 解释 @import 和 url()
+					// 将 CSS 转化成 CommonJS 模块
+					{
+						loader: 'css-loader'
+					},
+					// 预编译
+					{
+						loader: 'postcss-loader',
+					},
+					// 将 Sass 编译成 CSS
+					{
+						loader: 'sass-loader'
+					}
+				]
+			}
+		]
 	},
 	plugins: [
 		new webpack.optimize.OccurrenceOrderPlugin(),

@@ -1,1 +1,0 @@
-(window.webpackJsonpMyLibrary=window.webpackJsonpMyLibrary||[]).push([[1],{10:function(n,i,o){},9:function(n,i,o){}}]);

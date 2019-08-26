@@ -1,1 +1,0 @@
-(window.webpackJsonpMyLibrary=window.webpackJsonpMyLibrary||[]).push([[0],[,function(o,i,n){"use strict";i.a={locationUrl:window.location.href}}]]);
