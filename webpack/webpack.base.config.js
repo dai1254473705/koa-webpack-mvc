@@ -19,6 +19,7 @@ module.exports = {
 	// 嵌入到源文件中
 	devtool: isDev ? 'eval-source-map' : 'none',
 	target: 'web', // <=== 默认是 'web'，可省略
+	stats: 'errors-only',
 	entry: entryArray,
 	output: {
 		// output 目录对应一个绝对路径。
@@ -110,9 +111,14 @@ module.exports = {
 	performance: {
 		// 开发环境设置较大防止警告：false | "error" | "warning"
 		hints: 'warning',
-		// 根据入口起点的最大体积，控制webpack何时生成性能提示,整数类型,以字节为单位
+		// 资源(asset)是从 webpack 生成的任何文件。
+		// 此选项根据单个资源体积，控制 webpack 何时生成性能提示。
+		// 默认值是：250000 (bytes)。
 		maxAssetSize: isDev ? 600000 : 300000,
-		// 最大单个资源体积，默认250000 (bytes)
+		// 入口起点表示针对指定的入口，对于所有资源，
+		// 要充分利用初始加载时(initial load time)期间。
+		// 此选项根据入口起点的最大体积，控制 webpack 何时生成性能提示。
+		// 默认值是：250000 (bytes)。
 		maxEntrypointSize: isDev ? 600000 : 300000, // 整数类型（以字节为单位）
 	},
 	externals: 'jquery',

@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "devServer": "DEBUG=app webpack-dev-server --config webpack/webpack.devserver.config.js",
-    "dev": "DEBUG=app node app.dev.js",
+    "dev": "DEBUG=app node app.dev.js ",
     "test": "npm run test",
     "build": "node webpack/build.js"
   },
