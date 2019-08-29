@@ -24,14 +24,7 @@ app.use(morgan('dev'));
 app.use(views('views',{autoRender: false, extension: 'ejs'}));
 app.use(compress());
 
-// add router
-require('./routes/get')(router);
 
-// error handler 404 && 500
-// app.use(handlerError());
-
-app.use(router.routes());
-app.use(router.allowedMethods());
 
 // webpack dev and hot reload
 async function start(){
@@ -41,6 +34,15 @@ async function start(){
 	const compiler = webpack(webpackDevConfig);
 	const middleware = await koaWebpack({ compiler });
 	app.use(middleware);
+	
+	// add router
+	require('./routes/get')(router);
+
+	// error handler 404 && 500
+	// app.use(handlerError());
+
+	app.use(router.routes());
+	app.use(router.allowedMethods());
 	
 	/**
 	 * 事件监听
