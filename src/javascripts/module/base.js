@@ -26,6 +26,7 @@ export function validLowerCase (str) {
 /* 大写字母*/
 export function validUpperCase (str) {
 	const reg = /^[A-Z]+$/;
+	console.log('哈哈');
 	return reg.test(str);
 }
 

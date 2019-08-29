@@ -88,12 +88,12 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env': isDev ? 'development' : 'production'
 		}),
-		new HtmlWebpackPlugin({
-			filename: 'index.html',
-			template: '../src/index.html',
-			chunks: ['javascripts/pages/detail'],
-			excludeChunks: ['home.js']
-		})
+		// new HtmlWebpackPlugin({
+		// 	filename: 'index.html',
+		// 	template: '../src/index.html',
+		// 	chunks: ['javascripts/pages/detail'],
+		// 	excludeChunks: ['home.js']
+		// })
 	],
 	optimization: {
 		// 不压缩代码
