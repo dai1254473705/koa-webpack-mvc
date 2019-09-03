@@ -9,7 +9,7 @@ const config = require('../config');
 const isDev =  config.env === 'development';
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const glob = require('glob');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const entryArray = entry();
 module.exports = {
@@ -59,6 +59,29 @@ module.exports = {
 		},
 		// loaders 是从右向左开始执行
 		rules: [
+			// {
+			// 	loader: 'html-loader', // 使用 html-loader 处理图片资源的引用
+			// 	options: {
+			// 		attrs: ['img:src', 'img:data-src']
+			// 	}
+			// },
+			{
+				test: /\.ejs$/,
+				use: [
+					{
+						loader: 'html-loader',
+						options: {
+							attrs: ['img:src', 'img:data-src', ':data-background']
+						}
+					},
+					{
+						loader: 'ejs-html-loader',
+						options: {
+							production: !isDev
+						}
+					}
+				]
+			}
 		]
 	},
 	resolve: {
@@ -88,6 +111,14 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env': isDev ? 'development' : 'production'
 		}),
+		... glob.sync(path.resolve(__dirname, '../viewsSrc/*.ejs')).map((filepath, i) => {
+			const tempList = filepath.split(/[\/|\/\/|\\|\\\\]/g);           // 斜杠分割文件目录
+			const filename = `views/${tempList[tempList.length - 1]}`;       // 拿到文件的 filename
+			const template = filepath;                                       // 指定模板地址为对应的 ejs 视图文件路径
+			const fileChunk = filename.split('.')[0].split(/[\/|\/\/|\\|\\\\]/g).pop(); // 获取到对应视图文件的 chunkname
+			const chunks = ['manifest', 'vendors', fileChunk];               // 组装 chunks 数组
+			return new HtmlWebpackPlugin({filename, template, chunks});    // 返回 HtmlWebpackPlugin 实例
+		})
 		// new HtmlWebpackPlugin({
 		// 	filename: 'index.html',
 		// 	template: '../src/index.html',
